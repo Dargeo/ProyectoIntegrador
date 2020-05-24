@@ -7,6 +7,7 @@ import 'package:risknt/screens/home/settings_form.dart';
 import 'package:risknt/screens/screen_number/pageOne.dart';
 import 'package:risknt/screens/screen_number/pageThree.dart';
 import 'package:risknt/screens/screen_number/pageTwo.dart';
+import 'package:risknt/screens/screen_number/pagetres.dart';
 import 'package:risknt/services/auth.dart';
 import 'package:risknt/services/database.dart';
 import 'package:risknt/shared/loading.dart';
@@ -25,14 +26,14 @@ final AuthService _auth = AuthService();
   int currentTab= 0;
   PageOne one;
   PageTwo two;
-  PageThree three;
+  PageTres three;
   List<Widget> pages;
   Widget currentPage;
   @override
   void initState(){
     one = PageOne();
     two = PageTwo();
-    three = PageThree();
+    three = PageTres();
     pages = [one,two,three];
     currentPage = one;
     super.initState();
