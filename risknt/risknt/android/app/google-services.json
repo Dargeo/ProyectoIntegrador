@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "1013325721593",
-    "firebase_url": "https://risknt.firebaseio.com",
-    "project_id": "risknt",
-    "storage_bucket": "risknt.appspot.com"
+    "project_number": "715475432633",
+    "firebase_url": "https://riskt-5c478.firebaseio.com",
+    "project_id": "riskt-5c478",
+    "storage_bucket": "riskt-5c478.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1013325721593:android:84d1e1623d2139987f9728",
+        "mobilesdk_app_id": "1:715475432633:android:34be01f060add8f24f1768",
         "android_client_info": {
           "package_name": "com.risk.risknt"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1013325721593-iusk217o2o2h5am2jd9namtec1hmfgfa.apps.googleusercontent.com",
+          "client_id": "715475432633-tm7tu75j2o92vrh69kiu5rn5edkvfvst.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCNHf7nim2842PmxpwoZXftigNwzkkS9EQ"
+          "current_key": "AIzaSyA_jFPjQ1pJSHN1pKLRw7YB4qfMGpdP_Ok"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1013325721593-iusk217o2o2h5am2jd9namtec1hmfgfa.apps.googleusercontent.com",
+              "client_id": "715475432633-tm7tu75j2o92vrh69kiu5rn5edkvfvst.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

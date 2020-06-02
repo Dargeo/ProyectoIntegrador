@@ -5,33 +5,30 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:risknt/api/problem_api.dart';
 import 'package:risknt/models/problem.dart';
-import 'package:risknt/models/user.dart';
+
+
 import 'package:risknt/notifier/problemNotifier.dart';
-import 'package:risknt/services/database.dart';
+
+
+import '../../notifier/problemNotifier.dart';
 
 
 class ProblemForm extends StatefulWidget {
   
   final bool isUpdating;
-  final String userN;
-  final String userId;
-  final Problem problema;
-  ProblemForm({@required this.isUpdating,this.userN,this.userId,this.problema});
+
+  ProblemForm({@required this.isUpdating});
 
   @override
 
-  _ProblemFormState createState() => _ProblemFormState(nombreUser: userN, idUser: userId,currentProblem: problema);
+  _ProblemFormState createState() => _ProblemFormState();
 }
 
 class _ProblemFormState extends State<ProblemForm> {
-_ProblemFormState({this.nombreUser,this.idUser,this.currentProblem});
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
-  final String nombreUser;
-  final String idUser;
-  final Problem currentProblem;
+
+
   Problem _currentProblem;
-  String _currentProblemDescription = '';
-  String _currentProblemCategory = 'Ventana abierta';
   final List <String> categorias =['Ventana abierta','Luces encendidas',"Puertas Abiertas", "Carro encendido"];
   String _imageUrl;
   File _imageFile;
@@ -39,12 +36,15 @@ _ProblemFormState({this.nombreUser,this.idUser,this.currentProblem});
  @override
  void initState(){
    super.initState();
+    ProblemNotifier problemNotifier = Provider.of<ProblemNotifier>(context,listen: false);
 
-  if(currentProblem != null){
-    _currentProblem = currentProblem;
+  if(problemNotifier.currentProblem != null && problemNotifier.currentProblem.id != problemNotifier.problemList[problemNotifier.problemList.length -1].id){
+    print(problemNotifier.currentProblem.toString());
+    _currentProblem = problemNotifier.currentProblem;
     _currentProblem.category = 'Ventana abierta';
   }else{
     _currentProblem = Problem();
+    _currentProblem.category = 'Ventana abierta';
   }
   _imageUrl = _currentProblem.image;
  }
@@ -101,7 +101,7 @@ _ProblemFormState({this.nombreUser,this.idUser,this.currentProblem});
   }
   _getLocalImage() async {
     File imageFile =
-        await ImagePicker.pickImage(source: ImageSource.gallery, imageQuality: 50, maxWidth: 400);
+        await ImagePicker.pickImage(source: ImageSource.camera, imageQuality: 50, maxWidth: 400);
 
     if (imageFile != null) {
       setState(() {
@@ -111,7 +111,6 @@ _ProblemFormState({this.nombreUser,this.idUser,this.currentProblem});
   }
 
   Widget _buildNameField(){
-
             return TextFormField(
               decoration: InputDecoration(labelText: 'Problem descrition'),
               initialValue : _currentProblem.description,
@@ -119,15 +118,30 @@ _ProblemFormState({this.nombreUser,this.idUser,this.currentProblem});
               style: TextStyle(fontSize:20),
               validator: (String value){
                 if(value.isEmpty){
-                  
                   return 'Description is required';
                 }
                 return null;
               },
               onSaved: (String value){
                 _currentProblem.description = value;
-                _currentProblem.userN  = nombreUser;
-                _currentProblem.userid = idUser;
+              },
+            );
+          }
+            Widget _buildPlateField(){
+            return TextFormField(
+              decoration: InputDecoration(labelText: 'Placa del vehiculo'),
+              initialValue : _currentProblem.userid,
+              keyboardType: TextInputType.text,
+              style: TextStyle(fontSize:20),
+              validator: (String value){
+                if(value.isEmpty){
+                   return 'La placa es requerida';
+                }
+                return null;
+              },
+              onSaved: (value){
+                _currentProblem.userid = value.toUpperCase();
+                _currentProblem.userN = "nombre";
               },
             );
           }
@@ -136,7 +150,7 @@ _ProblemFormState({this.nombreUser,this.idUser,this.currentProblem});
       Widget _buildCategoryField(){
         
     return DropdownButtonFormField(
-      value: _currentProblem.category == null ? 'Ventana abierta' : _currentProblem.category, 
+      value: _currentProblem.category, 
       items: categorias.map((cat){
         return DropdownMenuItem(
           value: cat!= null ? cat : 'Ventana abierta',
@@ -144,7 +158,11 @@ _ProblemFormState({this.nombreUser,this.idUser,this.currentProblem});
         );
       }).toList(),
       onChanged : (value) {setState(() {
-        _currentProblem.category = value;
+        if(value == null){
+            _currentProblem.category = value;
+          }else{
+            _currentProblem.category = "Ventana abierta";
+          }
       });}
       
       
@@ -201,7 +219,7 @@ _ProblemFormState({this.nombreUser,this.idUser,this.currentProblem});
               ): SizedBox(height: 0,),
               
                 _buildNameField(),
-
+                _buildPlateField(),
                 _buildCategoryField(),
             ],
           ),

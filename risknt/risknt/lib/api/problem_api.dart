@@ -49,17 +49,17 @@ getProblem(ProblemNotifier problemNotifier) async {
 
   }
     _uploadProblem(Problem problem, bool isUpdating, {String imageUrl})async {
-    CollectionReference movieRef = Firestore.instance.collection('problems');
+    CollectionReference problemRef = Firestore.instance.collection('problems');
 
     if(imageUrl != null ){
       problem.image = imageUrl;
     }
 
     if(isUpdating){
-      await movieRef.document(problem.id).updateData(problem.toMap());
+      await problemRef.document(problem.id).updateData(problem.toMap());
       print('updated movie with id: ${problem.id}');
     }else{
-      DocumentReference documentRef = await movieRef.add(problem.toMap());
+      DocumentReference documentRef = await problemRef.add(problem.toMap());
 
       problem.id = documentRef.documentID;
 
@@ -68,4 +68,14 @@ getProblem(ProblemNotifier problemNotifier) async {
       await documentRef.setData(problem.toMap(),merge: true);
     }
 
+  }
+    deleteProblem(Problem problem, Function functionDeleted) async{
+    if(problem.image != null){
+      StorageReference storageReference = await FirebaseStorage.instance.getReferenceFromUrl(problem.image);
+
+      print(storageReference.path);
+
+      await storageReference.delete();
+    }
+await Firestore.instance.collection('problems').document(problem.id).delete();
   }

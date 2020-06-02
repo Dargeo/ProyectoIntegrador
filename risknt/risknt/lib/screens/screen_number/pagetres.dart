@@ -8,7 +8,7 @@ class PageTres extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-          return ProblemList();
+          return ProblemList(completa: "si",);
 
   }
 }

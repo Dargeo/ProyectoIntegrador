@@ -1,6 +1,8 @@
 import 'dart:collection';
-import 'package:flutter/cupertino.dart';
-import 'package:risknt/models/problem.dart';
+
+import 'package:flutter/material.dart';
+
+import '../models/problem.dart';
 
 class ProblemNotifier with ChangeNotifier {
 List<Problem> _problemList = [];
@@ -20,5 +22,8 @@ set currentProblem(Problem problem){
   _currentProblem = problem;
   notifyListeners();
 }
-
+  deleteProblem(Problem problem){
+    _problemList.removeWhere((_problem) => _problem.id == problem.id);
+    notifyListeners();
+  }
 }

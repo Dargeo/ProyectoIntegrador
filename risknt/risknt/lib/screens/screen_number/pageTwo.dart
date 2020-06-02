@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../list_forms/problemList.dart';
+
 
 
 
@@ -7,10 +9,7 @@ class PageTwo extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
 
-    return Container(
-      
-      color:Colors.tealAccent,
-    );
+    return ProblemList(completa: "no",);
   }
 }
 // class PageTwo extends StatelessWidget{
